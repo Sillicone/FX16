@@ -2,143 +2,134 @@
 
 # ◆ FX16
 
-**Консольный менеджер программ для Windows в духе Chocolatey: выбирайте утилиты стрелками, ставьте, обновляйте, переносите и удаляйте.**
+**A console package manager for Windows in the spirit of Chocolatey: pick tools with the arrow keys, then install, update, move and delete them.**
 
-`C++17` · `CMake` · `Windows 10/11` · без внешних зависимостей
+`C++17` · `CMake` · `Windows 10/11` · no external dependencies
 
 </div>
 
 ---
 
-## Возможности
+## Features
 
-- **Каталог из 42 программ** (ripgrep, fd, bat, fzf, neovim, helix, gh, lazygit, uv, ruff, ffmpeg, yt-dlp, rclone, Node.js, Bun, Deno, Python, Go, Docker и другие) с поиском «на лету» и сортировкой по клавише `Tab`.
-- **Всегда последние версии**: программа сама находит свежий релиз и нужный Windows x64 `.zip`, ничего не нужно обновлять в каталоге вручную.
-- **Установка по ссылке**: вставьте адрес любого GitHub-репозитория, и FX16 скачает его последний релиз.
-- **Обновление** одной программы или сразу всех, с отчётом о том, что поменялось.
-- **Карточка программы**: версия, дата установки, папка, размер, источник и готовые примеры команд для запуска.
-- **Перенос и удаление**: переместите программу в другую папку (в том числе на другой диск) или удалите её вместе с файлами.
-- **Темы и языки**: 7 цветовых тем с живым предпросмотром, русский и English.
-- **Каталог в `config.toml`**: добавляйте свои программы обычным блоком текста.
-- **Проверка записей**: режим `--check` пробно ставит программу, смотрит содержимое и сразу удаляет.
+- **A catalog of 42 programs** (ripgrep, fd, bat, fzf, neovim, helix, gh, lazygit, uv, ruff, ffmpeg, yt-dlp, rclone, Node.js, Bun, Deno, Python, Go, Docker and more) with live search and sorting on the `Tab` key.
+- **Always the latest versions**: FX16 finds the newest release and the right Windows x64 `.zip` itself, so there is nothing to update in the catalog by hand.
+- **Install by link**: paste the address of any GitHub repository and FX16 downloads its latest release.
+- **Updates** for one program or for all of them at once, with a report of what changed.
+- **Program card**: version, install date, folder, size, source and ready-made commands to run it.
+- **Move and delete**: relocate a program to another folder (even to another drive) or remove it together with its files.
+- **Themes and languages**: 7 color themes with a live preview, Russian and English.
+- **Catalog in `config.toml`**: add your own programs with a plain block of text.
+- **Entry checker**: the `--check` mode trial-installs a program, inspects the result and removes it right away.
 
-## Быстрый старт
+## Quick start
 
-Нужны Windows 10/11 (в них уже есть `curl` и `tar`), CMake, Ninja и компилятор C++17 (MinGW `g++` или MSVC).
+You need Windows 10/11 (they ship with `curl` and `tar`), CMake, Ninja and a C++17 compiler (MinGW `g++` or MSVC).
 
 ```bat
 build.bat
 FX16.exe
 ```
 
-`build.bat` сам закрывает запущенный `FX16.exe`, собирает проект и кладёт `FX16.exe` рядом с папкой `config`.
+`build.bat` closes a running `FX16.exe`, builds the project and puts `FX16.exe` next to the `config` folder.
 
-Ручная сборка:
+Manual build:
 
 ```bash
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-## Управление
+## Controls
 
-| Клавиша | Действие |
+| Key | Action |
 |---|---|
-| `↑` `↓`, `Home`, `End`, `PgUp`, `PgDn` | перемещение по списку |
-| `Enter` | выбрать |
-| `Esc` | назад |
-| любые буквы | поиск в каталоге и в списке установленных |
-| `Tab` | смена сортировки в каталоге |
-| `Ctrl+C` | выход из любой точки программы |
+| `↑` `↓`, `Home`, `End`, `PgUp`, `PgDn` | move through the list |
+| `Enter` | select |
+| `Esc` | go back |
+| any letters | search the catalog and the installed list |
+| `Tab` | change the catalog sort order |
+| `Ctrl+C` | quit from anywhere in the program |
 
-## Как это работает
+## How it works
 
-1. FX16 читает `config\config.toml` и показывает каталог по алфавиту.
-2. При установке он спрашивает у GitHub (или у официального сайта) последний релиз, выбирает подходящий архив, скачивает его через `curl` и распаковывает через `tar`.
-3. Старая версия при обновлении заменяется только после успешной загрузки новой.
-4. Список установленного хранится в `installed.txt`.
+1. FX16 reads `config\config.toml` and shows the catalog sorted A to Z.
+2. On install it asks GitHub (or an official website) for the latest release, picks a suitable archive, downloads it with `curl` and unpacks it with `tar`.
+3. When updating, the old version is replaced only after the new one has been downloaded successfully.
+4. The list of installed programs is kept in `installed.txt`.
 
-> Программы **не добавляются в `PATH`**. Карточка программы показывает команду `cd /d <папка>` и примеры запуска.
+> Programs are **not added to `PATH`**. The program card shows a `cd /d <folder>` command and usage examples.
 
-## Каталог: `config/config.toml`
+## Catalog: `config/config.toml`
 
 ```toml
 [[package]]
 name = "ripgrep"
 source = "BurntSushi/ripgrep"
 description = "Fast recursive grep"
-usage = "rg --version ; rg текст . ; rg -i -t cpp main"
+usage = "rg --version ; rg text . ; rg -i -t cpp main"
 ```
 
-Порядок блоков не важен, FX16 сортирует их сам. Поле `source` бывает трёх видов:
+The order of blocks does not matter, FX16 sorts them itself. The `source` field comes in three kinds:
 
-| Вид | Значение |
+| Kind | Meaning |
 |---|---|
-| `owner/repo` | последний релиз GitHub с Windows x64 `.zip` |
-| `src:owner/repo` | исходники последнего релиза, для репозиториев без готовых сборок |
-| `web:node` · `web:go` · `web:python` · `web:docker` | официальные сайты (Node.js LTS, Go, Python из NuGet, статический Docker) |
+| `owner/repo` | the latest GitHub release with a Windows x64 `.zip` |
+| `src:owner/repo` | the source archive of the latest release, for repositories without ready-made builds |
+| `web:node` · `web:go` · `web:python` · `web:docker` | official websites (Node.js LTS, Go, Python from NuGet, static Docker) |
 
-В `usage` примеры команд разделяются точкой с запятой. Они показываются на карточке установленной программы.
+In `usage`, example commands are separated by semicolons. They are shown on the card of an installed program.
 
-### Проверить новую запись
+### Check a new entry
 
-Перед добавлением в каталог проверьте, что программа вообще устанавливается:
+Before adding something to the catalog, check that it can actually be installed:
 
 ```bat
 FX16.exe --check https://github.com/owner/repo
-FX16.exe --check            :: весь каталог
+FX16.exe --check            :: the whole catalog
 ```
 
-Результат: `OK` (установилось, внутри есть `.exe`), `WARN` (нет `.exe`) или `FAIL` (нет подходящего архива). Пробная установка удаляется сразу.
+The result is `OK` (installed, an `.exe` is inside), `WARN` (no `.exe` inside) or `FAIL` (no suitable archive). The trial install is removed immediately.
 
-## Настройки и данные
+## Settings and data
 
-Язык и тема выбираются в пункте **«Настройки»** главного меню и запоминаются.
+Language and theme are chosen in the **Settings** item of the main menu and are remembered.
 
-Данные лежат в `%USERPROFILE%\FX16` (или в папке из переменной `FX16_HOME`):
+Data lives in `%USERPROFILE%\FX16` (or in the folder from the `FX16_HOME` variable):
 
-| Файл | Что внутри |
+| File | Contents |
 |---|---|
-| `installed.txt` | установленные программы |
-| `settings.txt` | язык и тема |
-| `apps\` | программы, если не выбрана другая папка |
+| `installed.txt` | installed programs |
+| `settings.txt` | language and theme |
+| `apps\` | programs, unless another folder is chosen |
 
-Переменная `GITHUB_TOKEN` (необязательно) поднимает лимит запросов к GitHub API с 60 до 5000 в час.
+The optional `GITHUB_TOKEN` variable raises the GitHub API rate limit from 60 to 5000 requests per hour.
 
-## Структура проекта
+## Project structure
 
 ```
-config/config.toml   каталог программ
+config/config.toml   program catalog
 src/
-  main.cpp           точка входа, главное меню, режим --check
-  core/              состояние, база installed.txt, config.toml, настройки
-  ui/                темы, рамки и вывод в консоль, списки и диалоги
-  net/               curl, GitHub Releases, официальные сайты
-  pkg/               установка, обновление, проверка
-  screens/           экраны: каталог, установленные, настройки
-build.bat            сборка в один клик
+  main.cpp           entry point, main menu, --check mode
+  core/              state, installed.txt database, config.toml, settings
+  ui/                themes, boxes and console output, lists and dialogs
+  net/               curl, GitHub Releases, official websites
+  pkg/               install, update, check
+  screens/           screens: catalog, installed, settings
+build.bat            one-click build
 ```
 
-Новые `.cpp` файлы в `src/` подхватываются CMake автоматически.
+New `.cpp` files placed in `src/` are picked up by CMake automatically.
 
-## Ограничения
+## Limitations
 
-- Поддерживаются только программы в виде `.zip`. Установщики `.exe` и `.msi` (например, 7-Zip или Docker Desktop) не поддерживаются.
-- Берётся только последний обычный релиз, без предрелизов и без закрепления версии.
-- Docker ставится как набор статических бинарников (`docker` и `dockerd`), без Docker Desktop.
-- Python ставится из пакета NuGet: запускайте его из папки `tools`.
-- Поиск принимает только латиницу.
-- Пути с кириллицей могут работать нестабильно из-за кодировок консоли.
+- Only programs shipped as `.zip` are supported. `.exe` and `.msi` installers (for example 7-Zip or Docker Desktop) are not.
+- Only the latest regular release is used: no pre-releases and no version pinning.
+- Docker is installed as a set of static binaries (`docker` and `dockerd`), without Docker Desktop.
+- Python is installed from a NuGet package: run it from the `tools` folder.
+- Search accepts Latin letters only.
+- Paths with Cyrillic characters may be unreliable because of console encodings.
 
----
+## License
 
-<details>
-<summary><b>English summary</b></summary>
-
-**FX16** is a console package manager for portable Windows tools, in the spirit of Chocolatey. It has a colorful keyboard-driven TUI (arrow keys, Enter, live search), 7 color themes, Russian/English UI and a catalog of 42 programs defined in `config/config.toml`.
-
-It always installs the latest release: it queries GitHub Releases (or nodejs.org, go.dev, NuGet, docker.com), downloads the Windows x64 `.zip` with `curl` and unpacks it with `tar`. You can install any GitHub repository by link, update one or all programs, move or delete them, and see ready-made usage commands on each program card.
-
-Build: run `build.bat` (needs CMake, Ninja and a C++17 compiler), then start `FX16.exe`. Check a new catalog entry with `FX16.exe --check owner/repo`.
-
-</details>
+[MIT](LICENSE)
