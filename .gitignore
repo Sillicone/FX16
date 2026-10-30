@@ -1,0 +1,31 @@
+# Сборка
+/build/
+/build-*/
+/out/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+
+# Бинарники
+FX16.exe
+cpkg.exe
+*.exe
+*.obj
+*.o
+*.a
+*.pdb
+*.ilk
+
+# Временные файлы программы
+release.json
+download.zip
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+
+# Claude Code
+.claude/
