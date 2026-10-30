@@ -11,6 +11,7 @@
 #include "core/settings.hpp"
 #include "net/net.hpp"
 #include "pkg/installer.hpp"
+#include "plugins/plugins.hpp"
 #include "screens/screens.hpp"
 #include "ui/menu.hpp"
 #include "ui/term.hpp"
@@ -49,21 +50,31 @@ int main(int argc, char** argv) {
         return check({{src.substr(src.find_last_of("/:") + 1), src, ""}});
     }
 
+    initPlugins();
     for (;;) {
         size_t nCat = loadPackages().size(), nInst = readDb(installedFile).size();
-        int c = pick(tr("Главная", "Home"),
-                     {{tr("Каталог", "Catalog"), tr("найти и установить программы", "find and install programs"), std::to_string(nCat)},
-                      {tr("Установленные", "Installed"), tr("подробности, перемещение, удаление", "details, move, delete"), std::to_string(nInst)},
-                      {tr("Настройки", "Settings"), tr("язык и цветовая тема", "language and color theme")},
-                      {tr("Выход", "Quit"), ""}},
-                     false,
+        std::vector<Item> items = {{tr("Каталог", "Catalog"), tr("найти и установить программы", "find and install programs"), std::to_string(nCat)},
+                                   {tr("Установленные", "Installed"), tr("подробности, перемещение, удаление", "details, move, delete"), std::to_string(nInst)},
+                                   {tr("Настройки", "Settings"), tr("язык и цветовая тема", "language and color theme")}};
+        for (auto& pe : pluginEntries()) items.push_back({pe.title, pe.description, pe.tag});  // пункты плагинов
+        const int nPlugin = (int)pluginEntries().size();
+        const bool hasErr = !pluginErrors().empty();
+        if (hasErr) items.push_back({tr("⚠ Ошибки плагинов", "⚠ Plugin errors"), tr("нажмите, чтобы посмотреть", "press to view"), "", true});
+        items.push_back({tr("Выход", "Quit"), ""});
+        int c = pick(tr("Главная", "Home"), items, false,
                      {kv(tr("Папка данных", "Data folder"), home.string()),
                       kv(tr("Каталог", "Catalog"), configFile.empty() ? tr("config\\config.toml НЕ НАЙДЕН", "config\\config.toml NOT FOUND") : configFile.string()),
-                      kv(tr("Источник", "Source"), tr("GitHub Releases (последние версии)", "GitHub Releases (latest versions)"))},
+                      kv(tr("Источник", "Source"), tr("GitHub Releases (последние версии)", "GitHub Releases (latest versions)")),
+                      kv(tr("Плагины", "Plugins"), pluginsSummary() + " · " + pluginsDir())},
                      tr("Состояние", "Status"));
         if (c == 0) catalog();
         else if (c == 1) installed();
         else if (c == 2) settings();
-        else return 0;
+        else if (c >= 3 && c < 3 + nPlugin) runPluginEntry(c - 3);
+        else if (hasErr && c == 3 + nPlugin) {
+            std::string all;
+            for (auto& e : pluginErrors()) all += e + "\n\n";
+            msg(all, 2);
+        } else return 0;
     }
 }

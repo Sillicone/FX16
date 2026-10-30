@@ -5,14 +5,29 @@
 #include <algorithm>
 #include <fstream>
 
-// config\config.toml рядом с FX16.exe (или на уровень выше, если запущен build\FX16.exe).
-fs::path findConfig() {
+#include "core/embedded.hpp"
+
+fs::path appDir() {
     char buf[MAX_PATH];
     GetModuleFileNameA(nullptr, buf, MAX_PATH);
-    fs::path dir = fs::path(buf).parent_path();
+    return fs::path(buf).parent_path();
+}
+
+// Куда класть создаваемые папки: рядом с FX16.exe, а для build\FX16.exe внутри проекта - в корень проекта.
+static fs::path baseDir() {
+    fs::path d = appDir();
+    return d.filename() == "build" && fs::exists(d.parent_path() / "CMakeLists.txt") ? d.parent_path() : d;
+}
+
+fs::path findConfig() {
+    fs::path dir = appDir();
     for (fs::path d : {dir, dir.parent_path()})
         if (fs::exists(d / "config" / "config.toml")) return d / "config" / "config.toml";
-    return {};
+    fs::path base = baseDir();
+    std::error_code ec;
+    fs::create_directories(base / "config", ec);
+    std::ofstream(base / "config" / "config.toml", std::ios::binary) << kDefaultConfig;
+    return base / "config" / "config.toml";
 }
 
 // shortcut: разбирается только это подмножество TOML (строки в двойных кавычках, экранирование только \\ и \").

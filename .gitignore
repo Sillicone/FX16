@@ -1,5 +1,7 @@
 # Сборка
 /build/
+/config/
+/plugins/
 /build-*/
 /out/
 CMakeCache.txt
@@ -18,6 +20,7 @@ cpkg.exe
 *.ilk
 
 # Временные файлы программы
+plugins/plugins.log
 release.json
 download.zip
 

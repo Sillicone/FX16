@@ -1,0 +1,5 @@
+// Сгенерировано CMake из resources/default-config.toml и resources/example-plugin.js. Не редактировать.
+#include "core/embedded.hpp"
+
+const char* const kDefaultConfig = R"FX16RAW(@FX16_DEFAULT_CONFIG@)FX16RAW";
+const char* const kExamplePlugin = R"FX16RAW(@FX16_EXAMPLE_PLUGIN@)FX16RAW";

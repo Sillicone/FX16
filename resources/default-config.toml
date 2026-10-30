@@ -1,0 +1,259 @@
+# FX16 catalog. Add a program by copying a [[package]] block; order does not matter,
+# the catalog sorts entries A-Z. source is one of:
+#   "owner/repo"      latest GitHub release with a Windows x64 .zip
+#   "src:owner/repo"  source archive of the latest GitHub release (repos without builds)
+#   "web:node|go|python|docker"  built-in resolvers for official sites
+# Check a new entry first with:  FX16 --check owner/repo
+# usage: example commands separated by ";" - shown on the program card in "Installed".
+
+[[package]]
+name = "ripgrep"
+source = "BurntSushi/ripgrep"
+description = "Fast recursive grep"
+usage = "rg --version ; rg текст . ; rg -i -t cpp main"
+
+[[package]]
+name = "fd"
+source = "sharkdp/fd"
+description = "Fast, friendly find"
+usage = "fd --version ; fd -e md ; fd имя_файла C:\\Users"
+
+[[package]]
+name = "bat"
+source = "sharkdp/bat"
+description = "cat with syntax highlighting"
+usage = "bat файл.txt ; bat -n --paging=never файл.cpp"
+
+[[package]]
+name = "hyperfine"
+source = "sharkdp/hyperfine"
+description = "Command-line benchmarking"
+usage = "hyperfine \"dir\" ; hyperfine --warmup 3 \"команда1\" \"команда2\""
+
+[[package]]
+name = "fzf"
+source = "junegunn/fzf"
+description = "Fuzzy finder"
+usage = "fzf ; dir /b | fzf"
+
+[[package]]
+name = "starship"
+source = "starship/starship"
+description = "Cross-shell prompt"
+usage = "starship --version ; starship init powershell"
+
+[[package]]
+name = "zoxide"
+source = "ajeetdsouza/zoxide"
+description = "Smarter cd"
+usage = "zoxide --version ; zoxide init powershell"
+
+[[package]]
+name = "delta"
+source = "dandavison/delta"
+description = "Git diff viewer"
+usage = "delta --help ; git -c core.pager=delta diff"
+
+[[package]]
+name = "eza"
+source = "eza-community/eza"
+description = "Modern ls replacement"
+usage = "eza ; eza -la --git"
+
+[[package]]
+name = "yazi"
+source = "sxyazi/yazi"
+description = "Terminal file manager"
+usage = "yazi ; yazi C:\\Users"
+
+[[package]]
+name = "dust"
+source = "bootandy/dust"
+description = "Disk usage, like du"
+usage = "dust ; dust -d 2 C:\\"
+
+[[package]]
+name = "gdu"
+source = "dundee/gdu"
+description = "Disk usage analyzer"
+usage = "gdu_windows_amd64 C:\\ ; gdu_windows_amd64 --help"
+
+[[package]]
+name = "bottom"
+source = "ClementTsang/bottom"
+description = "System monitor (btm)"
+usage = "btm ; btm --help"
+
+[[package]]
+name = "fastfetch"
+source = "fastfetch-cli/fastfetch"
+description = "System info"
+usage = "fastfetch"
+
+[[package]]
+name = "neovim"
+source = "neovim/neovim"
+description = "Vim-based editor"
+usage = "nvim файл.txt ; nvim --version"
+
+[[package]]
+name = "helix"
+source = "helix-editor/helix"
+description = "Modal text editor"
+usage = "hx файл.txt ; hx --health"
+
+[[package]]
+name = "gh"
+source = "cli/cli"
+description = "GitHub CLI"
+usage = "gh auth login ; gh repo clone владелец/репо ; gh pr list"
+
+[[package]]
+name = "lazygit"
+source = "jesseduffield/lazygit"
+description = "Git terminal UI"
+usage = "lazygit   (запускать внутри git-репозитория)"
+
+[[package]]
+name = "k9s"
+source = "derailed/k9s"
+description = "Kubernetes terminal UI"
+usage = "k9s ; k9s --help   (нужен настроенный kubeconfig)"
+
+[[package]]
+name = "just"
+source = "casey/just"
+description = "Command runner"
+usage = "just --list ; just имя_задачи"
+
+[[package]]
+name = "task"
+source = "go-task/task"
+description = "Task runner (Taskfile)"
+usage = "task --list ; task имя_задачи"
+
+[[package]]
+name = "uv"
+source = "astral-sh/uv"
+description = "Fast Python package manager"
+usage = "uv --version ; uv venv ; uv pip install requests"
+
+[[package]]
+name = "ruff"
+source = "astral-sh/ruff"
+description = "Fast Python linter"
+usage = "ruff check . ; ruff format ."
+
+[[package]]
+name = "hugo"
+source = "gohugoio/hugo"
+description = "Static site generator"
+usage = "hugo new site мой_сайт ; hugo server"
+
+[[package]]
+name = "caddy"
+source = "caddyserver/caddy"
+description = "Web server with auto HTTPS"
+usage = "caddy version ; caddy file-server --listen :8080"
+
+[[package]]
+name = "ffmpeg"
+source = "BtbN/FFmpeg-Builds"
+description = "FFmpeg audio/video tools"
+usage = "ffmpeg -version ; ffmpeg -i in.mp4 out.mp3"
+
+[[package]]
+name = "yt-dlp"
+source = "yt-dlp/yt-dlp"
+description = "Video downloader"
+usage = "yt-dlp ССЫЛКА ; yt-dlp -x --audio-format mp3 ССЫЛКА"
+
+[[package]]
+name = "rclone"
+source = "rclone/rclone"
+description = "Cloud storage sync"
+usage = "rclone config ; rclone ls имя_хранилища:"
+
+[[package]]
+name = "restic"
+source = "restic/restic"
+description = "Backup tool"
+usage = "restic init --repo D:\\backup ; restic -r D:\\backup backup C:\\data"
+
+[[package]]
+name = "age"
+source = "FiloSottile/age"
+description = "Simple file encryption"
+usage = "age-keygen -o key.txt ; age -r ПУБЛИЧНЫЙ_КЛЮЧ -o файл.age файл.txt ; age -d -i key.txt файл.age"
+
+[[package]]
+name = "syncthing"
+source = "syncthing/syncthing"
+description = "File synchronisation"
+usage = "syncthing ; syncthing --version   (веб-интерфейс: http://127.0.0.1:8384)"
+
+[[package]]
+name = "upx"
+source = "upx/upx"
+description = "Executable packer"
+usage = "upx -9 программа.exe ; upx -d программа.exe"
+
+[[package]]
+name = "ninja"
+source = "ninja-build/ninja"
+description = "Build system"
+usage = "ninja --version ; ninja -C build"
+
+[[package]]
+name = "cmake"
+source = "Kitware/CMake"
+description = "Build system generator"
+usage = "cmake -S . -B build ; cmake --build build"
+
+[[package]]
+name = "powershell"
+source = "PowerShell/PowerShell"
+description = "PowerShell 7"
+usage = "pwsh ; pwsh -Command \"Get-Date\""
+
+[[package]]
+name = "node"
+source = "web:node"
+description = "Node.js LTS (JavaScript runtime)"
+usage = "node --version ; node -e \"console.log(1+1)\" ; npm -v"
+
+[[package]]
+name = "bun"
+source = "oven-sh/bun"
+description = "Bun JavaScript runtime and toolkit"
+usage = "bun --version ; bun init ; bun run файл.ts"
+
+[[package]]
+name = "deno"
+source = "denoland/deno"
+description = "Deno JavaScript/TypeScript runtime"
+usage = "deno --version ; deno run файл.ts ; deno repl"
+
+[[package]]
+name = "python"
+source = "web:python"
+description = "Python with pip (nuget.org package, run tools/python.exe)"
+usage = "python --version ; python -m pip install requests ; python файл.py"
+
+[[package]]
+name = "go"
+source = "web:go"
+description = "Go programming language"
+usage = "go version ; go run main.go ; go build"
+
+[[package]]
+name = "docker"
+source = "web:docker"
+description = "Docker CLI and engine (static binaries, no Desktop)"
+usage = "docker --version ; dockerd (движок, от администратора) ; docker ps"
+
+[[package]]
+name = "rea"
+source = "src:morluto/rea"
+description = "Reverse engineer anything with agents (source release)"
+usage = "Это исходники, а не программа: откройте папку и прочитайте README.md"
